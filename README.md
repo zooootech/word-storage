@@ -1,24 +1,40 @@
-# README
+## usersテーブル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+| Column             | Type   | Options                        |
+| ------------------ | ------ | ------------------------------ |
+| name               | string | null: false                    |
+| encrypted_password | string | null: false                    |
 
-Things you may want to cover:
+### Association
+- has_many :words
+- has_many :favorites
+<!-- 既にuserとwordで一対多の関係を作っている為、has_many :postsがある状態
+この状態で、お気に入り用のhas_many :wordsを作ろうとすると、名前がまったく同じであるためエラーになってしまう
+そのため、お気に入り機能ではpostsではなく別の名前を与えてあげる必要がある -->
+<!-- sourceでどのテーブルを参照するのかを指定 -->
+- has_many :fav_words, through: :favorites, source: :word
 
-* Ruby version
+## wordsテーブル
 
-* System dependencies
+| Column   | Type       | Options                        |
+| -------- | ---------- | ------------------------------ |
+| english  | string     | null: false                    |
+| japanese | string     | null: false                    |
+| remarks  | string     |                                |
+| user_id  | references | null: false, foreign_key: true |
 
-* Configuration
+### Association
+- belongs_to :user
+- has_many :favorites
+- has_many :users, through: :favorites
 
-* Database creation
+## favoritesテーブル
 
-* Database initialization
+| Column  | Type       | Options                        |
+| ------- | ---------- | ------------------------------ |
+| user_id | references | null: false, foreign_key: true |
+| word_id | references | null: false, foreign_key: true |
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Association
+- belongs_to :user
+- belongs_to :word

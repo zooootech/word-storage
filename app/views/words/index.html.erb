@@ -1,2 +1,6 @@
-<h1>Words#index</h1>
-<p>Find me in app/views/words/index.html.erb</p>
+<div class="contents row">
+  <p>英単語一覧</p>
+  <% @words.each do |word| %>
+    <p><%= word.english %></p>
+  <% end %>
+</div>

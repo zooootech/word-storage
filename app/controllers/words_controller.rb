@@ -17,6 +17,9 @@ class WordsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   private
   def word_params
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)

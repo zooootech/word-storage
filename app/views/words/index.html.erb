@@ -1,6 +1,6 @@
 <div class="contents row">
   <p>英単語一覧</p>
   <% @words.each do |word| %>
-    <p><%= word.english %></p>
+    <p><%= link_to word.english, word_path(word.id), method: :get %></p>
   <% end %>
 </div>

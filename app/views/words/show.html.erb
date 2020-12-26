@@ -6,3 +6,7 @@
   <p class="squareColumn">備考</p>
   <p class="word-remarks"><%= @word.remarks %></p>
 </div>
+
+<% if user_signed_in? && current_user == @word.user %>
+  <%= link_to '削除', word_path(@word.id), method: :delete %>
+<% end %>

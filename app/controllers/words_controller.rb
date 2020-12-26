@@ -21,6 +21,13 @@ class WordsController < ApplicationController
     @word = Word.find(params[:id])
   end
 
+  def destroy
+    @word = Word.find(params[:id])
+    redirect_to word_path(@word) if current_user != @word.user
+    @word.destroy
+    redirect_to root_path
+  end
+
   private
   def word_params
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)

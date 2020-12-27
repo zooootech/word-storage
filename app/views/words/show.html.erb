@@ -10,3 +10,7 @@
 <% if user_signed_in? && current_user == @word.user %>
   <%= link_to '削除', word_path(@word.id), method: :delete %>
 <% end %>
+
+<% if user_signed_in? && current_user == @word.user %>
+  <%= link_to '編集', edit_word_path(@word.id) %>
+<% end %>

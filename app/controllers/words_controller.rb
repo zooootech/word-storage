@@ -28,6 +28,11 @@ class WordsController < ApplicationController
     redirect_to root_path
   end
 
+  def edit
+    @word = Word.find(params[:id])
+    redirect_to word_path(@word) if current_user != @word.user
+  end
+
   private
   def word_params
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)

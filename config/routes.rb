@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: 'words#index'
-  resources :words, only: [:index, :new, :create, :show, :destroy]
+  resources :words, only: [:index, :new, :create, :show, :destroy, :edit]
 end

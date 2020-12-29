@@ -1,6 +1,6 @@
 <%= form_with(model: word, local: true) do |f| %>
   <%= f.text_field :english, placeholder: "英語" %>
   <%= f.text_field :japanese, placeholder: "日本語" %>
-  <%= f.text_area :remark, placeholder: "備考", rows: "7" %>
+  <%= f.text_area :remarks, placeholder: "備考", rows: "7" %>
   <%= f.submit "SEND" %>
 <% end %>

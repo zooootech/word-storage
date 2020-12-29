@@ -1,5 +1,6 @@
 class WordsController < ApplicationController
   before_action :authenticate_user!, except: :index
+  before_action :set_word, only: [:show, :destroy, :edit, :update]
 
   def index
     @words = Word.all.order(:english)
@@ -20,23 +21,19 @@ class WordsController < ApplicationController
   end
 
   def show
-    @word = Word.find(params[:id])
   end
 
   def destroy
-    @word = Word.find(params[:id])
     redirect_to word_path(@word) if current_user != @word.user
     @word.destroy
     redirect_to root_path
   end
 
   def edit
-    @word = Word.find(params[:id])
     redirect_to word_path(@word) if current_user != @word.user
   end
 
   def update
-    @word = Word.find(params[:id])
     if @word.update(word_params)
       redirect_to root_path
     else
@@ -49,5 +46,8 @@ class WordsController < ApplicationController
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)
   end
 
+  def set_word
+    @word = Word.find(params[:id])
+  end
 
 end

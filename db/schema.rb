@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_093038) do
     t.bigint "word_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "word_id"], name: "index_favorites_on_user_id_and_word_id", unique: true
     t.index ["user_id"], name: "index_favorites_on_user_id"
     t.index ["word_id"], name: "index_favorites_on_word_id"
   end

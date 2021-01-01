@@ -5,6 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :authentication_keys => [:name] # 認証のキーをメールから名前へ
 
+  has_many :words
+  has_many :favorites
+  has_many :fav_words, through: :favorites, source: :word
+
   validates_uniqueness_of :name
   validates_presence_of :name
 

@@ -1,0 +1,15 @@
+<div class="mypage">
+  <div class="contents row left-index">
+    <p class="index-title"><%= @name %>さんの投稿一覧</p>
+    <% @words.each do |word| %>
+        <p><%= link_to word.english, word_path(word.id) %></p>
+    <% end %>
+  </div>
+
+  <div class="contents row right-index">
+    <p class="index-title"><%= @name %>さんのお気に入り一覧</p>
+    <% @favorite_words.each do |favorite_word| %>
+        <p><%= link_to favorite_word.english, word_path(favorite_word.id) %></p>
+    <% end %>
+  </div>
+</div>

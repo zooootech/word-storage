@@ -4,13 +4,23 @@
   <p class="squareColumn">日本語</p>
   <b class="word-japanese"><%= @word.japanese %></b>
   <p class="squareColumn">備考</p>
-  <p class="word-remarks"><%= @word.remarks %></p>
+  <b class="word-remarks"><%= @word.remarks %></b>
 </div>
 
-<% if user_signed_in? && current_user == @word.user %>
-  <%= link_to '削除', word_path(@word.id), method: :delete %>
-<% end %>
+<div class="user-function">
+  <% if user_signed_in? && current_user == @word.user %>
+    <%= link_to '編集', edit_word_path(@word.id), class: "item-red-btn" %>
+  <% end %>
 
-<% if user_signed_in? && current_user == @word.user %>
-  <%= link_to '編集', edit_word_path(@word.id) %>
-<% end %>
+  <% if user_signed_in? && current_user == @word.user %>
+    <%= link_to '削除', word_path(@word.id), method: :delete, class: "item-grey-btn" %>
+  <% end %>
+</div>
+
+<div class="favorite">
+  <% if !Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
+    <%= link_to "お気に入りに追加", word_favorites_path(@word.id), method: :post, class: "item-red-btn" %>
+  <% else %>
+    <%= link_to "お気に入り解除", word_favorite_path(@word.id), method: :delete, class: "item-grey-btn" %>
+  <% end %>
+</div>

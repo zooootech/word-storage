@@ -1,3 +1,7 @@
+<%= form_with(url: search_words_path, local: true, method: :get, class: "search-form") do |form| %>
+  <%= form.text_field :keyword, placeholder: "調べたい言葉を入力", class: "search-input" %>
+  <%= form.submit "検索", class: "search-btn" %>
+<% end %>
 <div class="contents row">
   <p>英単語一覧</p>
   <% @words.each do |word| %>

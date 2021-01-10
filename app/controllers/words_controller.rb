@@ -43,7 +43,9 @@ class WordsController < ApplicationController
 
   def search
     # Wordモデルに定義されているsearchメソッドを呼び出し、検索結果を変数に代入
-    @words = Word.search(params[:keyword])
+    @english_words = Word.search_english(params[:keyword])
+    @japanese_words = Word.search_japanese(params[:keyword])
+    @remarks_words = Word.search_remarks(params[:keyword])
   end
 
   private

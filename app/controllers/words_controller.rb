@@ -41,6 +41,11 @@ class WordsController < ApplicationController
     end
   end
 
+  def search
+    # Wordモデルに定義されているsearchメソッドを呼び出し、検索結果を変数に代入
+    @words = Word.search(params[:keyword])
+  end
+
   private
   def word_params
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)

@@ -11,4 +11,15 @@ class Word < ApplicationRecord
   validates :english, format: {
     with:  /\A[a-zA-Z]+\z/, message: 'には半角アルファベットを使用してください'
   }, allow_blank: true
+
+  # データに対する処理などを行うプログラム処理（＝ビジネスロジック）は、モデルに置く
+  # クラスメソッド（クラスで共通の情報を使った処理）は、メソッド名の前にselfを.(ドット)で繋げて定義
+  def self.search(search)
+    # 検索フォームに何か値が入力されていた場合
+    if search != ""
+      Word.where('english LIKE(?)', "%#{search}%").where('japanese LIKE(?)', "%#{search}%").where('remarks LIKE(?)', "%#{search}%")
+    else
+      Word.all
+    end
+  end
 end

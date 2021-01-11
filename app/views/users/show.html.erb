@@ -1,15 +1,23 @@
+<%= form_with(url: search_words_path, local: true, method: :get, class: "search-form") do |form| %>
+  <%= form.text_field :keyword, placeholder: "調べたい言葉を入力", class: "search-input" %>
+  <%= form.submit "検索", class: "search-btn" %>
+<% end %>
 <div class="mypage">
   <div class="contents row left-index">
-    <p class="index-title"><%= @name %>さんの投稿一覧</p>
-    <% @words.each do |word| %>
-        <p><%= link_to word.english, word_path(word.id) %></p>
-    <% end %>
+    <p class="index-title"><span><%= @name %>さんの登録単語一覧</span></p>
+    <div class="word-contents">
+      <% @words.each do |word| %>
+          <p><%= link_to word.english, word_path(word.id), class: "word-index" %></p>
+      <% end %>
+    </div>
   </div>
 
   <div class="contents row right-index">
-    <p class="index-title"><%= @name %>さんのお気に入り一覧</p>
-    <% @favorite_words.each do |favorite_word| %>
-        <p><%= link_to favorite_word.english, word_path(favorite_word.id) %></p>
-    <% end %>
+    <p class="index-title"><span><%= @name %>さんのお気に入り単語一覧</span></p>
+    <div class="word-contents">
+      <% @favorite_words.each do |favorite_word| %>
+          <p><%= link_to favorite_word.english, word_path(favorite_word.id), class: "word-index" %></p>
+      <% end %>
+    </div>
   </div>
 </div>

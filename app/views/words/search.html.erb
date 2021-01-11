@@ -3,14 +3,18 @@
   <%= form.submit "検索", class: "search-btn" %>
 <% end %>
 <div class="contents row">
-  <p>検索結果</p>
-  <% @english_words.each do |word| %>
-    <p><%= link_to word.english, word_path(word.id), method: :get %></p>
-  <% end %>
-  <% @japanese_words.each do |word| %>
-    <p><%= link_to word.japanese, word_path(word.id), method: :get %></p>
-  <% end %>
-  <% @remarks_words.each do |word| %>
-    <p><%= link_to word.remarks, word_path(word.id), method: :get %></p>
-  <% end %>
+  <div class="contents_row">
+    <p class="index-title"><span>検索結果</span></p>
+    <div class="word-contents">
+      <% @english_words.each do |word| %>
+        <p><%= link_to word.english, word_path(word.id), method: :get, class: "search-word" %></p>
+      <% end %>
+      <% @japanese_words.each do |word| %>
+        <p><%= link_to word.japanese, word_path(word.id), method: :get, class: "search-word" %></p>
+      <% end %>
+      <% @remarks_words.each do |word| %>
+        <p><%= link_to word.remarks, word_path(word.id), method: :get, class: "search-word" %></p>
+      <% end %>
+    </div>
+  </div>
 </div>

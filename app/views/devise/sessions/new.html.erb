@@ -2,6 +2,15 @@
   <div class="container">
     <h3 class="login">ログイン</h3>
 
+    <div class="flash_messages">
+      <%# ログイン処理時に表示するメッセージはdeviseのflashオブジェクトに格納されている %>
+      <%# フラッシュメッセージを表示するための記述 %>
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+      <% end %>
+      <%# // フラッシュメッセージを表示するための記述 %>
+    </div>
+
     <%= form_with model: @user, url: user_session_path, id: 'new_user', class: 'new_user', local: true do |f| %>
       <div class="field">
         <%= f.label :name %><br />

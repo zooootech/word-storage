@@ -1073,7 +1073,7 @@ footer p {
   font-family: serif;
   font-weight: 600;
   color: #000;
-  padding-left: 30px;
+  padding: 0 30px 0;
 }
 
 .word-box {
@@ -1176,4 +1176,9 @@ footer p {
 
 .pulldown-cintents {
   color: black
+}
+
+.error_explanation, .flash_messages {
+  margin-bottom: 20px;
+  color: red;
 }

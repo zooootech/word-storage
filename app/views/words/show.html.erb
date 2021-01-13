@@ -6,11 +6,12 @@
   </div>
   <p class="squareColumn">日本語</p>
   <div class="word-box">
-    <p class="word-japanese"><%= @word.japanese %></p>
+    <p class="word-japanese"><%= @word.japanese %>
   </div>
   <p class="squareColumn">備考</p>
   <div class="word-box">
-  <p class="word-remarks"><%= @word.remarks %></p>
+    <%# 改行を表示させる為に、safe_joinメソッドを使用 %>
+    <p class="word-remarks"><%= safe_join(@word.remarks.split("\n"),tag(:br)) %></p>
   </div>
 </div>
 

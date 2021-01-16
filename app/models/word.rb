@@ -9,7 +9,7 @@ class Word < ApplicationRecord
   end
 
   validates :english, format: {
-    with:  /\A[a-zA-Z]+\z/, message: 'には半角アルファベットを使用してください'
+    with: /\A[a-zA-Z]+\z/, message: 'には半角アルファベットのみ使用してください'
   }, allow_blank: true
 
   # データに対する処理などを行うプログラム処理（＝ビジネスロジック）は、モデルに置く

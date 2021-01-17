@@ -22,28 +22,26 @@ RSpec.describe "Words", type: :request do
   end
 
   describe "GET #show" do
-    it "showアクションにリクエストすると正常にレスポンスが返ってくる" do
+    before do
       sign_in(@user)
+    end
+    it "showアクションにリクエストすると正常にレスポンスが返ってくる" do
       get word_path(@word)
       expect(response.status).to eq(200)
     end
     it "showアクションにリクエストするとレスポンスに登録済みのワードの英語が存在する" do
-      sign_in(@user)
       get word_path(@word)
       expect(response.body).to include(@word.english)
     end
     it "showアクションにリクエストするとレスポンスに登録済みにワードの日本語が存在する" do
-      sign_in(@user)
       get word_path(@word)
       expect(response.body).to include(@word.japanese)
     end
     it "showアクションにリクエストするとレスポンスに登録済みのワードの備考が存在する" do
-      sign_in(@user)
       get word_path(@word)
       expect(response.body).to include(@word.remarks)
     end
     it "showアクションにリクエストするとレスポンスに検索フォームが存在する" do
-      sign_in(@user)
       get word_path(@word)
       expect(response.body).to include("検索")
     end

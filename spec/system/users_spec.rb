@@ -16,7 +16,7 @@ RSpec.describe "ユーザー新規登録", type: :system do
       fill_in "Name", with: @user.name
       fill_in "Password", with: @user.password
       fill_in "Password confirmation", with: @user.password_confirmation
-      # サインアップボタンを押すとユーザーモデルのカウントが1上がることを確認する
+      # サインアップボタンを押すとUserモデルのカウントが1上がることを確認する
       expect{
         find('input[name="commit"]').click
       }.to change { User.count }.by(1)
@@ -43,7 +43,7 @@ RSpec.describe "ユーザー新規登録", type: :system do
       fill_in "Name", with: ""
       fill_in "Password", with: ""
       fill_in "Password confirmation", with: ""
-      # サインアップボタンを押してもユーザーモデルのカウントは上がらないことを確認する
+      # サインアップボタンを押してもUserモデルのカウントは上がらないことを確認する
       expect{
         find('input[name="commit"]').click
       }.to change { User.count }.by(0)

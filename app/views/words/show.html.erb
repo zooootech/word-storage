@@ -26,9 +26,9 @@
 </div>
 
 <div class="favorite">
-  <% if !Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
+  <% if user_signed_in? && !Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
     <%= link_to "お気に入りに追加", word_favorites_path(@word.id), method: :post, class: "item-favorite-btn" %>
-  <% else %>
+  <% elsif user_signed_in? && Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
     <%= link_to "お気に入り解除", word_favorite_path(@word.id), method: :delete, class: "item-release-favorite-btn" %>
   <% end %>
 </div>

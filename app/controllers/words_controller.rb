@@ -1,5 +1,5 @@
 class WordsController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_word, only: [:show, :destroy, :edit, :update]
 
   def index
@@ -35,7 +35,7 @@ class WordsController < ApplicationController
 
   def update
     if @word.update(word_params)
-      redirect_to root_path
+      redirect_to word_path(@word.id)
     else
       render :edit
     end

@@ -1,4 +1,21 @@
 <%= render "search_form" %>
+
+<div class="user-function">
+  <% if user_signed_in? && current_user == @word.user %>
+    <%= link_to '編集', edit_word_path(@word.id), class: "item-edit-btn" %>
+  <% end %>
+
+  <% if user_signed_in? && current_user == @word.user %>
+    <%= link_to '削除', word_path(@word.id), method: :delete, class: "item-destroy-btn" %>
+  <% end %>
+
+  <% if user_signed_in? && !Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
+    <%= link_to "お気に入りに追加", word_favorites_path(@word.id), method: :post, class: "item-favorite-btn" %>
+  <% elsif user_signed_in? && Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
+    <%= link_to "お気に入り解除", word_favorite_path(@word.id), method: :delete, class: "item-release-favorite-btn" %>
+  <% end %>
+</div>
+
 <div class="contents row index">
   <p class="squareColumn">英語</p>
   <div class="word-box">
@@ -13,22 +30,4 @@
     <%# 改行を表示させる為に、safe_joinメソッドを使用 %>
     <p class="word-remarks"><%= safe_join(@word.remarks.split("\n"),tag(:br)) %></p>
   </div>
-</div>
-
-<div class="user-function">
-  <% if user_signed_in? && current_user == @word.user %>
-    <%= link_to '編集', edit_word_path(@word.id), class: "item-edit-btn" %>
-  <% end %>
-
-  <% if user_signed_in? && current_user == @word.user %>
-    <%= link_to '削除', word_path(@word.id), method: :delete, class: "item-destroy-btn" %>
-  <% end %>
-</div>
-
-<div class="favorite">
-  <% if user_signed_in? && !Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
-    <%= link_to "お気に入りに追加", word_favorites_path(@word.id), method: :post, class: "item-favorite-btn" %>
-  <% elsif user_signed_in? && Favorite.exists?(user_id: current_user.id, word_id: @word.id) %>
-    <%= link_to "お気に入り解除", word_favorite_path(@word.id), method: :delete, class: "item-release-favorite-btn" %>
-  <% end %>
 </div>

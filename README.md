@@ -36,12 +36,20 @@ https://word-storage-31168.herokuapp.com/
 * 表示されている英単語をクリックするとその単語の詳細ページに遷移します。
 * ヘッダーにはタイトルと、ログインしていない場合はログインとサインアップのボタンが、ログインしている場合はユーザー名と単語の登録するためのボタンが表示されます。
 * ユーザー名にカーソルを合わせるとマイページとログアウトボタンが表示されます。
-* 検索フォームから登録してある単語を検索することが出来ます。
+* ログインしたユーザーは、検索フォームから登録してある単語を検索することが出来ます。
+
+### サインアップページ
+[![Image from Gyazo](https://i.gyazo.com/6549b5fe1a805343268ec948d6a23693.jpg)](https://gyazo.com/6549b5fe1a805343268ec948d6a23693)
+
+
+
+### ログインページ
+[![Image from Gyazo](https://i.gyazo.com/2a4f9fc27fe8fbe805339ca2402c85fe.jpg)](https://gyazo.com/2a4f9fc27fe8fbe805339ca2402c85fe)
 
 ### ワード登録ページ
 [![Image from Gyazo](https://i.gyazo.com/31585036b08d6b041569c77a696bd4fa.jpg)](https://gyazo.com/31585036b08d6b041569c77a696bd4fa)
 
-**〈単語登録GIF〉**
+**〈ワード登録GIF〉**
 [![Image from Gyazo](https://i.gyazo.com/6f7d8e4de2f031f1efc3fc3391fd27ec.gif)](https://gyazo.com/6f7d8e4de2f031f1efc3fc3391fd27ec)
 
 * 英語、日本語、備考欄があります。
@@ -50,15 +58,22 @@ https://word-storage-31168.herokuapp.com/
 * モデル及びデータベースレベルで保存に問題がなければ、Registerボタンを押すことで単語を登録することができ、トップページに遷移します。
 * 登録ができなかった場合、登録ページに戻されます。
 
-
-
 ### ワード詳細ページ
-[![Image from Gyazo](https://i.gyazo.com/55c855deff81c3a1342ae2263ac468b2.jpg)](https://gyazo.com/55c855deff81c3a1342ae2263ac468b2)
+[![Image from Gyazo](https://i.gyazo.com/55b9e3aa39fbc33b6c12c6229314de84.jpg)](https://gyazo.com/55b9e3aa39fbc33b6c12c6229314de84)
 
 * 登録してある英単語の意味（日本語訳）と備考（その単語にまつわる情報）が表示されます。
 * ログインの有無は問いません。
 * その単語を登録したユーザーであれば、編集、削除ボタンが表示されます。
 * ログインしていればどのユーザーにも、お気に入りに追加、もしくは、すでにお気に入りに追加した単語であればお気に入り解除ボタンが表示されます。
+
+### ワード編集ページ
+[![Image from Gyazo](https://i.gyazo.com/9a9814aa2459334830661e14fd78a173.jpg)](https://gyazo.com/9a9814aa2459334830661e14fd78a173)
+
+### マイページ
+[![Image from Gyazo](https://i.gyazo.com/fb256d8bc18761ddc6cfbaf01508fcc9.jpg)](https://gyazo.com/fb256d8bc18761ddc6cfbaf01508fcc9)
+
+### 〈検索機能GIF〉
+[![Image from Gyazo](https://i.gyazo.com/a7c5a2a3820d09ae3b883798d66b2da0.gif)](https://gyazo.com/a7c5a2a3820d09ae3b883798d66b2da0)
 
 ## usersテーブル
 

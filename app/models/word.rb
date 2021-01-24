@@ -9,8 +9,12 @@ class Word < ApplicationRecord
   end
 
   validates :english, format: {
-    with: /\A[a-zA-Z]+\z/, message: 'には半角アルファベットのみ使用してください'
+    with: /\A[a-zA-Z_.,\s]+\z/, message: "には、半角アルファベット、_(アンダースコア)、.(ドット)、,(カンマ)、半角スペースのみ使用してください"
   }, allow_blank: true
+
+  # validates :english, format: {
+  #   with: /\A[a-zA-Z]{1,}[_.,\s]+\z/, message: "には、半角アルファベット、_(アンダースコア)、.(ドット)、,(カンマ)、半角スペースのみ使用し、最低1文字以上のアルファベットを入力してください"
+  # }, allow_blank: true
 
   # データに対する処理などを行うプログラム処理（＝ビジネスロジック）は、モデルに置く
   # クラスメソッド（クラスで共通の情報を使った処理）は、メソッド名の前にselfを.(ドット)で繋げて定義

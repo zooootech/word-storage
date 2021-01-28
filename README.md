@@ -99,12 +99,31 @@ https://word-storage-31168.herokuapp.com/
 
 # 工夫したポイント
 
-* deviseの認証機能をemailからnameに変更する際に、どの部分を編集すれば良いかを調べることで、deviseの設定ファイルやモジュールについての学びが深まった。
-* お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。
+* deviseの認証を、emailからnameに変更。（emailだと長い為、文字制限のないnameを使用し、デフォルトより簡易な認証機能に変更。）
+* 意識して覚えたい単語を判別するためにお気に入り機能を設定。
 
 # 学びとなったポイント
 
+* deviseの認証機能をemailからnameに変更する際に、どの部分を編集すれば良いかを調べることで、deviseの設定ファイルやモジュールについての学びが深まった。
 * お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。
+* 中間モデルを介してUserモデルとWordモデルを紐づける際、user.rbで既に、`has_many :words`のアソシエーションが組まれている場合、
+
+  ```
+  has_many :words
+  has_many :favorites
+  has_many :words, through: :favorites
+  ```
+
+  上記のような記述にしてしまうと、一行目の`has_many :words`が三行目の`has_many :words, through: :favorite`によって上書きされ、ユーザーはお気に入りを介してしかワードの情報を取得することができなくなる。そこで、
+
+  ```
+  has_many :words
+  has_many :favorites
+  has_many :fav_words, through: :favorites, source: :word
+  ```
+
+  三行目の記述のように、has_manyメソッドの引数に`fav_words`という仮のモデル名を指定し、sourceオプションを用いて関連付け元のモデル名を指定することで、登録したワードとお気に入りしたワードそれぞれのアソシエーションを組むことができる。
+
 
 ## usersテーブル
 

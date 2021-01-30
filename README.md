@@ -155,14 +155,14 @@ https://word-storage-31168.herokuapp.com/
   ターミナルにて、`rails routes`を実行する。
 
   ```
-          Prefix Verb   URI Pattern              Controller#Action
+          Prefix Verb   URI Pattern                             Controller#Action
   word_favorites POST   /words/:word_id/favorites(.:format)     favorites#create
    word_favorite DELETE /words/:word_id/favorites/:id(.:format) favorites#destroy
   ```
 
   パスの`:word_id`という部分に記述された値は、パラメーターとして送られる。
   このように、ネストを利用すれば、id情報を含めることができる。
-  ルーティングをネストさせる一番の理由は、アソシエーション先のレコードのidをparamsに追加してコントローラーに送るところにある。
+  ルーティングをネストさせる一番の理由は、アソシエーション先のレコードのidをparamsに追加してコントローラーに送るところにある。  
   この:word_idの箇所へ、お気に入り機能が働くと結びつくワードのidを記述すると、paramsのなかにword_idというキーでパラメーターが追加され、コントローラーで扱うことができる。
 * 検索機能やお気に入り単語を並べ替えるといった、データとやりとりをするメソッド（ビジネスロジック）はコントローラーではなくモデルに置く。
 * deviseのデフォルトでは、サインアップ時のみエラーメッセージが表示される仕様になっている為、ログイン時のエラーメッセージについては、deviseのflashオブジェクトに格納されているflashメッセージを表示させる必要がある。
@@ -174,7 +174,7 @@ https://word-storage-31168.herokuapp.com/
   current_user.words.order(:english)
   ```
 
-  これだと、アルファベットの大文字と小文字の区別がなく、例えば、「abc」と「ABC」では、先に生成されたデータ（idが若い）が上に来る仕様になっている。
+  これだと、アルファベットの大文字と小文字の区別がなく、例えば、「abc」と「ABC」では、先に生成されたデータ（idが若い）が上に来る仕様になっている。  
   《sort_byメソッドの場合》
   ハッシュ形式の要素が配列で格納されているfavorite_wordsに対してsort_byを使用。
 
@@ -184,7 +184,7 @@ https://word-storage-31168.herokuapp.com/
   end
   ```
 
-  この場合、大文字と小文字が区別され、大文字の方が上に来る仕様となっている。例えば、「abc」と「ABC」では、「ABC」が先に来るし、「aaa」と「BBB」では「BBB」が先に来る。
+  この場合、大文字と小文字が区別され、大文字の方が上に来る仕様となっている。例えば、「abc」と「ABC」では、「ABC」が先に来るし、「aaa」と「BBB」では「BBB」が先に来る。  
   今回、favorite_wordsの並べ替えに対しては、前提としてアルファベット順（「a」と「B」では「a」が上に来る）かつ、同じアルファベットの場合、大文字と小文字とでは大文字が上に来る、という仕様が望ましかったため、以下のように記述。
 
   ```

@@ -3,6 +3,7 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :destroy, :edit, :update]
 
   def index
+    # orderメソッドは、テーブルから取得してきた複数のレコード情報を持つインスタンスの、並び順を変更するメソッド
     @words = Word.all.order(:english)
   end
 

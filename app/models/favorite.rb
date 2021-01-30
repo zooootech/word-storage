@@ -21,7 +21,8 @@ class Favorite < ApplicationRecord
     # 配列にsort_byメソッドを用いて、昇順（今回の場合、アルファベット順）に並び替え
     # 破壊的メソッド（!）を使用し、レシーバにあたるオブジェクト（今回の場合、@favorite_words）自身の値を変更
     favorite_words.sort_by! do |a|
-      a[:english]
+      # アルファベット順に並べ替える際、同じアルファベットであれば小文字よりも大文字が上に来るよう記述
+      [a[:english].downcase, a[:english]]
     end
   end
 end

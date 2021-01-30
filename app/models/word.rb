@@ -21,6 +21,8 @@ class Word < ApplicationRecord
   def self.search_english(search)
     # 検索フォームに何か値が入力されていた場合
     if search != ""
+      # モデル.where('検索対象となるカラムを含む条件式')で、「条件に一致したレコードのインスタンス」を配列の形で取得する
+      # LIKE句は、曖昧（あいまい）な文字列の検索をするときに使用し、例えば、where('title LIKE(?)', "%a%")とすることで、「aが含まれるタイトル」を意味する
       Word.where('english LIKE(?)', "%#{search}%")
     else
       Word.all.order(:english)

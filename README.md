@@ -101,11 +101,12 @@ https://word-storage-31168.herokuapp.com/
 
 * deviseの認証を、emailからnameに変更。（emailだと長い為、文字制限のないnameを使用し、デフォルトより簡易な認証機能に変更。）
 * 意識して覚えたい単語を判別するためにお気に入り機能を設定。
+* ログイン失敗時にもエラーメッセージが表示されるように設定。
 
 # 学びとなったポイント
 
-* deviseの認証機能をemailからnameに変更する際に、どの部分を編集すれば良いかを調べることで、deviseの設定ファイルやモジュールについての学びが深まった。
-* お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。
+* deviseの認証機能をemailからnameに変更するには、各ビューファイルのemailの部分をnameに変更、deviseのメソッドのオーバーライド、deviseの設定ファイル(/config/initializers/devise.rb)の編集などを行う必要がある。
+* お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。DBとモデル両方に一意性を保つことでより安全性が高まる。
 * 中間モデルを介してUserモデルとWordモデルを紐づける際、user.rbで既に、`has_many :words`のアソシエーションが組まれている場合、
 
   ```
@@ -114,7 +115,7 @@ https://word-storage-31168.herokuapp.com/
   has_many :words, through: :favorites
   ```
 
-  上記のような記述にしてしまうと、一行目の`has_many :words`が三行目の`has_many :words, through: :favorite`によって上書きされ、ユーザーはお気に入りを介してしかワードの情報を取得することができなくなる。そこで、
+  上記のような記述にしてしまうと、一行目の`has_many :words`が三行目の`has_many :words, through: :favorites`によって上書きされ、ユーザーはお気に入りを介してしかワードの情報を取得することができなくなる。そこで、
 
   ```
   has_many :words
@@ -123,7 +124,49 @@ https://word-storage-31168.herokuapp.com/
   ```
 
   三行目の記述のように、has_manyメソッドの引数に`fav_words`という仮のモデル名を指定し、sourceオプションを用いて関連付け元のモデル名を指定することで、登録したワードとお気に入りしたワードそれぞれのアソシエーションを組むことができる。
+* お気に入り機能のルーティングについて、以下のような記述をした場合、
 
+  ```
+  Rails.application.routes.draw do
+    resources :word
+    resources :favorites, only: [:create, :destroy]
+  end
+  ```
+
+  ターミナルにて、`rails routes`を実行する。
+
+  ```
+     Prefix Verb   URI Pattern              Controller#Action
+  favorites POST   /favorites(.:format)     favorites#create
+   favorite DELETE /favorites/:id(.:format) favorites#destroy
+  ```
+
+  これだとパスの中に、どのワードに対してお気に入り機能が働いているかを示す情報がない。
+  お気に入り機能が働く際には、どのワードに対してのものなのかをパスから判断できるようにしたいので、ルーティングのネストを用いる。以下のように記述。
+
+  ```
+  Rails.application.routes.draw do
+    resources :word do
+      resources :favorites, only: [:create, :destroy]
+    end
+  end
+  ```
+
+  ターミナルにて、`rails routes`を実行する。
+
+  ```
+          Prefix Verb   URI Pattern              Controller#Action
+  word_favorites POST   /words/:word_id/favorites(.:format)     favorites#create
+   word_favorite DELETE /words/:word_id/favorites/:id(.:format) favorites#destroy
+  ```
+
+  パスの`:word_id`という部分に記述された値は、パラメーターとして送られる。
+  このように、ネストを利用すれば、id情報を含めることができる。
+  ルーティングをネストさせる一番の理由は、アソシエーション先のレコードのidをparamsに追加してコントローラーに送るところにある。
+  この:word_idの箇所へ、お気に入り機能が働くと結びつくワードのidを記述すると、paramsのなかにword_idというキーでパラメーターが追加され、コントローラーで扱うことができる
+* collection
+* 検索機能やお気に入り単語を並べ替えるといった、データとやりとりをするメソッド（ビジネスロジック）はコントローラーではなくモデルに置く。
+* deviseのデフォルトでは、サインアップ時のみエラーメッセージが表示される仕様になっている為、ログイン時のエラーメッセージについては、deviseのflashオブジェクトに格納されているflashメッセージを表示させる必要がある。
 
 ## usersテーブル
 

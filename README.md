@@ -101,11 +101,12 @@ https://word-storage-31168.herokuapp.com/
 
 * deviseの認証を、emailからnameに変更。（emailだと長い為、文字制限のないnameを使用し、デフォルトより簡易な認証機能に変更。）
 * 意識して覚えたい単語を判別するためにお気に入り機能を設定。
+* ログイン失敗時にもエラーメッセージが表示されるように設定。
 
 # 学びとなったポイント
 
-* deviseの認証機能をemailからnameに変更する際に、どの部分を編集すれば良いかを調べることで、deviseの設定ファイルやモジュールについての学びが深まった。
-* お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。
+* deviseの認証機能をemailからnameに変更するには、各ビューファイルのemailの部分をnameに変更、deviseのメソッドのオーバーライド、deviseの設定ファイル(/config/initializers/devise.rb)の編集などを行う必要がある。
+* お気に入りテーブルを作成する際、user_idとword_idの重複を防ぐために、DBレベルではカラムにuniqueインデックス作成し、モデルレベルではバリデーションとして、uniquenessヘルパーとscopeオプションを用いて一意性制約を設定。DBとモデル両方に一意性を保つことでより安全性が高まる。
 * 中間モデルを介してUserモデルとWordモデルを紐づける際、user.rbで既に、`has_many :words`のアソシエーションが組まれている場合、
 
   ```
@@ -114,7 +115,7 @@ https://word-storage-31168.herokuapp.com/
   has_many :words, through: :favorites
   ```
 
-  上記のような記述にしてしまうと、一行目の`has_many :words`が三行目の`has_many :words, through: :favorite`によって上書きされ、ユーザーはお気に入りを介してしかワードの情報を取得することができなくなる。そこで、
+  上記のような記述にしてしまうと、一行目の`has_many :words`が三行目の`has_many :words, through: :favorites`によって上書きされ、ユーザーはお気に入りを介してしかワードの情報を取得することができなくなる。そこで、
 
   ```
   has_many :words
@@ -123,7 +124,76 @@ https://word-storage-31168.herokuapp.com/
   ```
 
   三行目の記述のように、has_manyメソッドの引数に`fav_words`という仮のモデル名を指定し、sourceオプションを用いて関連付け元のモデル名を指定することで、登録したワードとお気に入りしたワードそれぞれのアソシエーションを組むことができる。
+* お気に入り機能のルーティングについて、以下のような記述をした場合、
 
+  ```
+  Rails.application.routes.draw do
+    resources :word
+    resources :favorites, only: [:create, :destroy]
+  end
+  ```
+
+  ターミナルにて、`rails routes`を実行する。
+
+  ```
+     Prefix Verb   URI Pattern              Controller#Action
+  favorites POST   /favorites(.:format)     favorites#create
+   favorite DELETE /favorites/:id(.:format) favorites#destroy
+  ```
+
+  これだとパスの中に、どのワードに対してお気に入り機能が働いているかを示す情報がない。
+  お気に入り機能が働く際には、どのワードに対してのものなのかをパスから判断できるようにしたいので、ルーティングのネストを用いる。以下のように記述。
+
+  ```
+  Rails.application.routes.draw do
+    resources :word do
+      resources :favorites, only: [:create, :destroy]
+    end
+  end
+  ```
+
+  ターミナルにて、`rails routes`を実行する。
+
+  ```
+          Prefix Verb   URI Pattern              Controller#Action
+  word_favorites POST   /words/:word_id/favorites(.:format)     favorites#create
+   word_favorite DELETE /words/:word_id/favorites/:id(.:format) favorites#destroy
+  ```
+
+  パスの`:word_id`という部分に記述された値は、パラメーターとして送られる。
+  このように、ネストを利用すれば、id情報を含めることができる。
+  ルーティングをネストさせる一番の理由は、アソシエーション先のレコードのidをparamsに追加してコントローラーに送るところにある。
+  この:word_idの箇所へ、お気に入り機能が働くと結びつくワードのidを記述すると、paramsのなかにword_idというキーでパラメーターが追加され、コントローラーで扱うことができる。
+* 検索機能やお気に入り単語を並べ替えるといった、データとやりとりをするメソッド（ビジネスロジック）はコントローラーではなくモデルに置く。
+* deviseのデフォルトでは、サインアップ時のみエラーメッセージが表示される仕様になっている為、ログイン時のエラーメッセージについては、deviseのflashオブジェクトに格納されているflashメッセージを表示させる必要がある。
+* データの並べ替えについて、orderメソッドを使った場合と、sort_byメソッドを使った場合とで、違いがあった。条件はどちらも**アルファベットの昇順**で並べ替え。  
+《orderメソッドの場合》  
+引数に並び替えの基準となるカラム名を指定し、以下のように記述。
+
+  ```
+  current_user.words.order(:english)
+  ```
+
+  これだと、アルファベットの大文字と小文字の区別がなく、例えば、「abc」と「ABC」では、先に生成されたデータ（idが若い）が上に来る仕様になっている。
+  《sort_byメソッドの場合》
+  ハッシュ形式の要素が配列で格納されているfavorite_wordsに対してsort_byを使用。
+
+  ```
+  favorite_words.sort_by do |a|
+    a[:english]
+  end
+  ```
+
+  この場合、大文字と小文字が区別され、大文字の方が上に来る仕様となっている。例えば、「abc」と「ABC」では、「ABC」が先に来るし、「aaa」と「BBB」では「BBB」が先に来る。
+  今回、favorite_wordsの並べ替えに対しては、前提としてアルファベット順（「a」と「B」では「a」が上に来る）かつ、同じアルファベットの場合、大文字と小文字とでは大文字が上に来る、という仕様が望ましかったため、以下のように記述。
+
+  ```
+  favorite_words.sort_by do |a|
+    [a[:english].downcase, a[:english]]
+  end
+  ```
+
+  最優先a.downcaseと次優先aの2つ条件でソートを行っている。
 
 ## usersテーブル
 

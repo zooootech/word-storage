@@ -2,7 +2,7 @@ class FavoritesController < ApplicationController
   before_action :set_word
   
   def create
-    @favorite = Favorite.create(favorite_params))
+    @favorite = Favorite.create(user_id: current_user.id, word_id: @word.id)
     redirect_to user_path(current_user)
   end
 
@@ -15,9 +15,5 @@ class FavoritesController < ApplicationController
   private
   def set_word
     @word = Word.find(params[:word_id])
-  end
-
-  def favorite_params
-    params.require(:favorite).permit(user_id: current_user.id, word_id: @word.id)
   end
 end

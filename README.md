@@ -203,27 +203,21 @@ https://word-storage-31168.herokuapp.com/
   
 # 使用技術（開発環境）
 ## バックエンド
----
 Ruby, Ruby on Rails  
 
 ## フロントエンド
----
 HTML, CSS  
 
 ## データベース
----
 MySQL, Sequel Pro  
 
 ## ソース管理
----
 GitHub, GitHubDesktop  
 
 ## テスト
----
 RSpec  
 
 ## エディタ
----
 VSCode  
 
 # DB設計

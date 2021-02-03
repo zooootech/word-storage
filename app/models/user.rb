@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :authentication_keys => [:name] # 認証のキーをメールから名前へ
+         authentication_keys: [:name] # 認証のキーをメールから名前へ
 
   has_many :words, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -16,7 +16,7 @@ class User < ApplicationRecord
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["name = :value", { :value => name }]).first
+      where(conditions).where(['name = :value', { value: name }]).first
     else
       where(conditions).first
     end

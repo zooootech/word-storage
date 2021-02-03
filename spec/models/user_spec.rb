@@ -11,29 +11,29 @@ RSpec.describe User, type: :model do
         expect(@user).to be_valid
       end
       it 'passeordが6文字以上であれば登録できる' do
-        @user.password = "123456"
-        @user.password_confirmation = "123456"
+        @user.password = '123456'
+        @user.password_confirmation = '123456'
         expect(@user).to be_valid
       end
     end
     context 'ユーザー新規登録がうまくいかないとき' do
       it 'nameが空では登録できない' do
-        @user.name = ""
+        @user.name = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Name can't be blank")
       end
       it 'passwordが空では登録できない' do
-        @user.password = ""
+        @user.password = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
       it 'passwordが5文字以下だと登録できない' do
-        @user.password = "12345"
+        @user.password = '12345'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
+        expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
       it 'passwordが存在しても、password_confirmationが空だと登録できない' do
-        @user.password_confirmation = ""
+        @user.password_confirmation = ''
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end

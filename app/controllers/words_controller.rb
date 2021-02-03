@@ -50,6 +50,7 @@ class WordsController < ApplicationController
   end
 
   private
+
   def word_params
     params.require(:word).permit(:english, :japanese, :remarks).merge(user_id: current_user.id)
   end
@@ -57,5 +58,4 @@ class WordsController < ApplicationController
   def set_word
     @word = Word.find(params[:id])
   end
-
 end

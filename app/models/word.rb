@@ -23,25 +23,25 @@ class Word < ApplicationRecord
     if search != ''
       # モデル.where('検索対象となるカラムを含む条件式')で、「条件に一致したレコードのインスタンス」を配列の形で取得する
       # LIKE句は、曖昧（あいまい）な文字列の検索をするときに使用し、例えば、where('title LIKE(?)', "%a%")とすることで、「aが含まれるタイトル」を意味する
-      Word.where('english LIKE(?)', "%#{search}%")
+      Word.where('english LIKE(?)', "%#{search}%").order(:english)
     else
-      Word.all.order(:english)
+      Word.all.order(:english).order(:japanese)
     end
   end
 
   def self.search_japanese(search)
     if search != ''
-      Word.where('japanese LIKE(?)', "%#{search}%")
+      Word.where('japanese LIKE(?)', "%#{search}%").order(:english).order(:japanese)
     else
-      Word.all.order(:english)
+      Word.all.order(:english).order(:japanese)
     end
   end
 
   def self.search_remarks(search)
     if search != ''
-      Word.where('remarks LIKE(?)', "%#{search}%")
+      Word.where('remarks LIKE(?)', "%#{search}%").order(:english).order(:japanese)
     else
-      Word.all.order(:english)
+      Word.all.order(:english).order(:japanese)
     end
   end
 end

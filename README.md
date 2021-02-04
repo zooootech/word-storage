@@ -202,8 +202,9 @@ https://word-storage-31168.herokuapp.com/
 
   最優先a.downcaseと次優先aの2つ条件でソートを行っている。
 * ワードの備考欄に改行込みの文章を入力し登録したが、詳細ページでは改行がされていない文章が表示された。pry-raillsを用いて、binding.pryをし、登録時のパラメーターを確認したところ、ちゃんと改行コード（\r\n）は含まれている。  text_areaに入力した文章を改行込みで表示させるために、以下２通りの方法を試してみた。  
-**《simple_formatメソッド》**  
-simple_formatは下記の機能を有する。
+
+  **《simple_formatメソッド》**  
+  simple_formatは下記の機能を有する。
     * 文字列を\<p>で括る
     * 改行は\<br>を付与
     * 連続した改行は\<p>\</p>を付与
@@ -215,9 +216,10 @@ simple_formatは下記の機能を有する。
   ```
 
   この方法では、確かに改行はそのまま表示されたが、連続した改行も一個分の改行しかされていなかった。これはsimple_formatが、連続した改行に対してはその数だけbrタグを付与するのではなく、一行分の文字列をそれぞれpタグで括るためである。  
-**《safe_joinメソッド》**  
-このメソッドはsimple_formatと違い、連続した改行をpタグで括らず、連続した改行を表示させることができる。  
-show.html.erbにsafe_joinを以下のようにを記述。
+
+  **《safe_joinメソッド》**  
+  このメソッドはsimple_formatと違い、連続した改行をpタグで括らず、連続した改行を表示させることができる。  
+  show.html.erbにsafe_joinを以下のようにを記述。
 
   ```
   <%= safe_join(@word.remarks.split("\n"),tag(:br)) %>

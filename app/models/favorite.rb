@@ -13,7 +13,7 @@ class Favorite < ApplicationRecord
     favorite_words = []
     # 現在ログインしているユーザーのお気に入りを変数に代入
     favorites = user.favorites
-    # 配列型式で格納されているお気に入り情報に対して繰り返し処理を行う
+    # 配列形式で格納されているお気に入り情報に対して繰り返し処理を行う
     favorites.each do |favorite|
       # 繰り返し処理の中で、お気に入り情報の内、ワード情報のみを取り出し、配列の要素として追加
       favorite_words << favorite.word

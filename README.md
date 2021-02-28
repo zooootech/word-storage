@@ -227,7 +227,7 @@ https://word-storage-31168.herokuapp.com/
   ```
 
   この方法だと、連続した改行がそのまま表示された。
-* RspecのRequest Specでdeviseのsign_inメソッドを使用するためには、spec/rails_helper.rbに以下を記述。
+* RspecのRequest Specで、deviseのsign_inメソッドを使用するためには、spec/rails_helper.rbに以下を記述。
 
   ```
   RSpec.configure do |config|

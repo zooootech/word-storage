@@ -113,6 +113,14 @@ https://word-storage-31168.herokuapp.com/
 * 検索機能やお気に入り単語を並べ替えるといった、データとやりとりをするメソッド（ビジネスロジック）はコントローラーではなくモデルに置く。
 * deviseのデフォルトでは、サインアップ時のみエラーメッセージが表示される仕様になっている為、ログイン時のエラーメッセージについては、deviseのflashオブジェクトに格納されているflashメッセージを表示させる必要がある。
 * 検索機能などのビジネスロジック（データに対する処理などを行うプログラム処理）は、コントローラーではなく、モデルに置いた方が好ましい。その際、クラスメソッドとしての扱いとなるため、メソッド名の前に「self」を付けることや、引数を利用しコントローラーから呼び出すことを意識する。
+* RspecのRequest Specで、deviseのsign_inメソッドを使用するためには、spec/rails_helper.rbに以下を記述。
+
+  ```
+  RSpec.configure do |config|
+  # 省略
+    config.include Devise::Test::IntegrationHelpers, type: :request
+  end
+  ```
 * その他、以下Qiitaの記事にまとめました。  
   
   お気に入り機能とルーティングのネストについて  
@@ -123,15 +131,6 @@ https://word-storage-31168.herokuapp.com/
   
   Railsでtext_areaに入力した文章を改行込で表示させる方法  
   https://qiita.com/zooootech/items/d0b05713e1bef490325f  
-
-* RspecのRequest Specで、deviseのsign_inメソッドを使用するためには、spec/rails_helper.rbに以下を記述。
-
-  ```
-  RSpec.configure do |config|
-  # 省略
-    config.include Devise::Test::IntegrationHelpers, type: :request
-  end
-  ```
 
 # 使用技術（開発環境）
 ## バックエンド
